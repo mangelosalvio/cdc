@@ -1,0 +1,52 @@
+<?php $__env->startSection('body'); ?>
+    <script>
+        function printPage() { print(); } //Must be present for Iframe printing
+    </script>
+    <style>
+        table{ border-collapse: collapse; width: 100%; }
+        table thead{
+            font-weight: bold;
+        }
+        table td{
+            padding:2px 3px;
+            border: 1px solid #000;
+
+        }
+        table { page-break-inside:auto }
+        tr    { page-break-inside:avoid; page-break-after:auto }
+    </style>
+
+    <div style="text-align: center;">
+        <img src="<?php echo e(asset("img/CDC.png")); ?>" style="width:300px; margin-bottom: -50px;">
+    </div>
+    <div style="text-align: center;">
+        <h1 style="font-size: 18px;"><?php echo e($College->college_desc); ?> PARTNERS as of <?php echo e(\Carbon\Carbon::now()->toDateTimeString()); ?></h1>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <td>COMPANY</td>
+            <td>ADDRESS</td>
+            <td>CONTACT PERSON</td>
+            <td>POSITION</td>
+            <!-- <td>NATURE OF BUSINESS</td> -->
+            <td>NATURE OF PARTNERSHIP</td>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach($College->companies as $Company): ?>
+            <tr>
+                <td><?php echo e($Company->company_name); ?></td>
+                <td><?php echo e($Company->address); ?></td>
+                <td><?php echo e($Company->company_contact_person); ?></td>
+                <td><?php echo e($Company->position); ?></td>
+                <!-- <td><?php echo e($Company->nature_of_business); ?></td> -->
+                <td>ACADEMIC</td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('reports', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

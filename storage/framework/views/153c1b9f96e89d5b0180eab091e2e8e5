@@ -1,0 +1,54 @@
+<?php $__env->startSection('body'); ?>
+    <script>
+        function printPage() { print(); } //Must be present for Iframe printing
+    </script>
+    <style>
+        table{ border-collapse: collapse; width: 100%; }
+        table thead{
+            font-weight: bold;
+        }
+        table td{
+            padding:2px 3px;
+            border: 1px solid #000;
+            vertical-align: top;
+
+        }
+        table { page-break-inside:auto }
+        tr    { page-break-inside:avoid; page-break-after:auto }
+    </style>
+
+    <div style="text-align: center;">
+        <img src="<?php echo e(asset("img/CDC.png")); ?>" style="width:300px; margin-bottom: -50px;">
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th style="width: 1%;">#</th>
+            <th>STUDENT NO</th>
+            <th>NAME</th>
+            <th>COURSE</th>
+            <th>LOG</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach($Registrations as $i => $Registration): ?>
+            <tr>
+                <td style="width: 1%;"><?php echo e($i+1); ?></td>
+                <td style="width:5%;"><?php echo e($Registration->student_no); ?></td>
+                <td style="width:25%;"><?php echo e($Registration->student_name); ?></td>
+                <td style="width:5%"><?php echo e($Registration->course); ?></td>
+                <td>
+                    <?php foreach($Registration->logs as $Log): ?>
+                        <?php echo e($Log->log_time); ?> ( <?php echo e($Log->log_status); ?> ) <br>
+                    <?php endforeach; ?>
+
+                </td>
+            </tr>
+        <?php endforeach; ?>
+
+        </tbody>
+    </table>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('reports', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

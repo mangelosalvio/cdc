@@ -1,0 +1,57 @@
+<?php $__env->startSection('body'); ?>
+    <style>
+        .report-table{
+            width:100%;
+            border-collapse: collapse;
+        }
+        .report-table td{
+            border:1px solid #000;
+            padding:1px;
+        }
+        .report-table td{
+            font-size:10px;
+        }
+
+        table { page-break-after:auto;}
+        tr    { page-break-inside:avoid;}
+        td    { page-break-inside:auto;}
+        thead { display:table-header-group; }
+        tbody { display:table-row-group;}
+    </style>
+
+
+    <table class="report-table">
+        <tbody>
+        <?php foreach( $Companies as $Company ): ?>
+            <tr>
+                <td colspan="8" style="font-weight: bold;"><?php echo e($Company->company_name); ?></td>
+            </tr>
+            <tr>
+                <td colspan="8">Address:<?php echo e($Company->address); ?></td>
+            </tr>
+            <tr>
+                <td colspan="8">Contact Person: <?php echo e($Company->company_contact_person); ?></td>
+            </tr>
+            <tr>
+                <td colspan="8">Date/Time Visited:</td>
+            </tr>
+            <?php foreach($Company->students()->where('internship_taken_id','=',3)->orderBy('student_name')->get() as  $i => $Student): ?>
+                <tr>
+                    <td style="padding-left:10px; width:1%;"><?php echo e($i + 1); ?></td>
+                    <td style="width:25%;"><?php echo e($Student->student_name); ?></td>
+                    <td style="width:2%;"><?php echo e($Student->course->course_desc); ?></td>
+
+                    <td style="width:5%; font-style: italic;">Accepted</td>
+                    <td style="width:3%;"></td>
+
+                    <td style="width:5%; font-style: italic;" nowrap>On-Duty</td>
+                    <td style="width:3%;"></td>
+
+                    <td style="font-style: italic;">Remarks:</td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('report', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

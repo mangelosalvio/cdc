@@ -1,0 +1,140 @@
+<?php $__env->startSection('body'); ?>
+    <?php echo Form::open([
+        'url' => 'student/tpe/'. $Student->id .'/'. $Company->id . '/' . $version
+    ]); ?>
+
+    <div class="row form-horizontal">
+        <div class="form-group">
+            <?php echo Form::label("student_name", "Student Name",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+            <div class="col-xs-10">
+                <span class="form-control"><?php echo e($Student->student_name); ?></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label("company", "Company Name",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+            <div class="col-xs-10">
+                <span class="form-control"><?php echo e($Company->company_name); ?></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <?php echo Form::label("rated_by", "Rated by",
+            [
+            "class" => "control-label col-xs-2"
+            ]); ?>
+
+            <div class="col-xs-10">
+                <?php echo Form::text('rated_by', null, [ 'class' => 'form-control' ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label("position", "Position",
+            [
+            "class" => "control-label col-xs-2"
+            ]); ?>
+
+            <div class="col-xs-10">
+                <?php echo Form::text('position', null, [ 'class' => 'form-control' ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label("date", "Date Rated",
+            [
+            "class" => "control-label col-xs-2"
+            ]); ?>
+
+            <div class="col-xs-10">
+                <?php echo Form::text('date', null, [ 'class' => 'form-control datepicker' ]); ?>
+
+            </div>
+        </div>
+        <?php echo Form::hidden('tpe_version', 'v' . $version); ?>
+
+
+        <?php if($version == 2): ?>
+            <div class="col-xs-offset-8 col-xs-1">1</div>
+            <div class="col-xs-1">2</div>
+            <div class="col-xs-1">3</div>
+            <div class="col-xs-1">4</div>
+
+            <?php foreach($TpeCategories as $j => $TpeCategory): ?>
+                <div class="col-xs-8">
+                    <span style="font-weight: bold;"><?php echo e($TpeCategory->tpe_category); ?></span>
+                    (<?php echo e($TpeCategory->tpe_rate); ?>%)
+                    <input type="hidden" name="arr_category_id[]" value="<?php echo e($TpeCategory->id); ?>">
+                </div>
+                <?php foreach($TpeCategory->questions as $i => $Question): ?>
+                    <div class="col-xs-offset-1 col-xs-7"><?php echo e($i + 1); ?>. <?php echo e($Question->tpe_question); ?></div>
+                    <div class="col-xs-1">
+                        <input type="radio" name="arr_answer[<?php echo e($j); ?>][<?php echo e($i); ?>]"
+                                value="1" >
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="radio" name="arr_answer[<?php echo e($j); ?>][<?php echo e($i); ?>]"
+                                value="2">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="radio" name="arr_answer[<?php echo e($j); ?>][<?php echo e($i); ?>]"
+                                value="3">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="radio" name="arr_answer[<?php echo e($j); ?>][<?php echo e($i); ?>]"
+                                value="4">
+                        <input type="hidden" name="arr_question_id[]" value="<?php echo e($Question->id); ?>">
+                    </div>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php elseif( $version == 1 ): ?>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td></td>
+                    <?php for($i = 10 ; $i >= 1 ; $i--): ?>
+                        <td><?php echo e($i); ?></td>
+                    <?php endfor; ?>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($TpeQuestions as $j => $Question): ?>
+                    <tr>
+                        <td>
+                            <?php echo e($Question->tpe_question); ?>
+
+                            <input type="hidden" name="arr_category_id[]" value="<?php echo e($Question->tpe_category_id); ?>">
+                            <input type="hidden" name="arr_question_id[]" value="<?php echo e($Question->id); ?>">
+                        </td>
+                        <?php for($i = 10 ; $i >= 1 ; $i--): ?>
+                            <td>
+                                <input type="radio" name="arr_answer[<?php echo e($j); ?>]"
+                                       value="<?php echo e($i); ?>">
+                            </td>
+                        <?php endfor; ?>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+
+
+        <?php endif; ?>
+    </div>
+    <div class="row">
+        <input type="submit" value="Save" class="btn btn-primary">
+    </div>
+    <?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('home', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

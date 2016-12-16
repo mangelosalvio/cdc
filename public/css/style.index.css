@@ -1,0 +1,22 @@
+.border{
+    border:1px solid #c0c0c0;
+}
+.top-buffer{
+    margin-top: 20px;
+}
+.authority-to-work-ot-table td:nth-child(3){
+    text-align: center;
+}
+.glyphicon-remove{
+    cursor:pointer;
+    color:red;
+}
+
+.dtr-dialog input[type='submit']{
+    margin:6px;
+}
+
+.menu-btns div a{
+    width:100%;
+    margin:5px;
+}

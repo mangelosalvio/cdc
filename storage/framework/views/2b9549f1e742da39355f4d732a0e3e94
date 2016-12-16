@@ -1,0 +1,20 @@
+<?php $__env->startSection('body'); ?>
+    <table>
+        <tbody>
+        <?php foreach( $Companies as $Company ): ?>
+        <tr>
+            <td>
+                <address>
+                    <strong><?php echo e($Company->company_contact_person); ?></strong> <br/>
+                    <?php echo e($Company->position); ?> <br/>
+                    <?php echo e($Company->company_name); ?><br/>
+                    <?php echo e($Company->address); ?> <br/>
+                </address>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('report', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,258 @@
+<?php $__env->startSection('body'); ?>
+    <?php echo Form::open([ 'url' => 'student/search' ]); ?>
+
+    <div class="form-group row">
+        <div class="col-sm-offset-8 col-sm- 4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="keyword" placeholder="Search for...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" name="submit_btn" value="search">Go!</button>
+            </span>
+            </div><!-- /input-group -->
+        </div>
+
+    </div>
+    <?php echo Form::close(); ?>
+
+
+    <?php echo Form::model($Student, array('url' => 'student', 'class' => 'form-horizontal')); ?>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("student_name", "Student Name",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-md-10" >
+                <?php echo Form::text("student_name", null,
+                [
+                "id" => "student_name",
+                "class" => "form-control",
+                'autofocus' => 'true'
+                ]); ?>
+
+
+                <?php echo Form::hidden('id'); ?>
+
+            </div>
+        </div>
+
+    <div class="form-group form-group-sm">
+        <?php echo Form::label("college_id", "College",
+        [
+        "class" => "control-label col-sm-2"
+        ]); ?>
+
+
+        <div class="col-md-10" >
+            <?php echo Form::select('college_id',
+            $Colleges,
+            null,
+            [ "class" => "form-control"]
+            ); ?>
+
+        </div>
+    </div>
+
+    <div class="form-group form-group-sm">
+        <?php echo Form::label("course_id", "Course",
+        [
+        "class" => "control-label col-sm-2"
+        ]); ?>
+
+
+        <div class="col-md-10" >
+            <?php echo Form::select('course_id',
+            [ '' => 'Select Course:' ]
+            +
+            $Courses,
+            null,
+            [ "class" => "form-control"]
+            ); ?>
+
+        </div>
+    </div>
+
+    <div class="form-group form-group-sm">
+        <?php echo Form::label("internship_taken_id", "Internship Taken",
+        [
+        "class" => "control-label col-sm-2"
+        ]); ?>
+
+
+        <div class="col-md-10" >
+            <?php echo Form::select('internship_taken_id',
+            [ '' => 'Select Semester:' ] +
+            $InternshipSemesters,
+            null,
+            [ "class" => "form-control"]
+            ); ?>
+
+        </div>
+    </div>
+
+    <div class="form-group form-group-sm">
+        <?php echo Form::label("internship_enrolled_id", "Interhsip Enrolled",
+        [
+        "class" => "control-label col-sm-2"
+        ]); ?>
+
+
+        <div class="col-md-10" >
+            <?php echo Form::select('internship_enrolled_id',
+            [ '' => 'Select Semester:' ] +
+            $InternshipSemesters,
+            null,
+            [ "class" => "form-control"]
+            ); ?>
+
+        </div>
+    </div>
+
+    <div class="form-group form-group-sm">
+        <?php echo Form::label("contact_no", "Contact No.",
+        [
+        "class" => "control-label col-sm-2"
+        ]); ?>
+
+
+        <div class="col-md-10" >
+            <?php echo Form::text("contact_no", null,
+            [
+            "id" => "contact_no",
+            "class" => "form-control"
+            ]); ?>
+
+        </div>
+    </div>
+
+    <div class="form-group form-group-sm">
+        <?php echo Form::label("email", "Email",
+        [
+        "class" => "control-label col-sm-2"
+        ]); ?>
+
+
+        <div class="col-md-10" >
+            <?php echo Form::text("email", null,
+            [
+            "id" => "email",
+            "class" => "form-control"
+            ]); ?>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <?php echo Form::submit('Save', [
+        'class' => 'btn btn-default'
+        ]); ?>
+
+
+        <a href="<?php echo e(url('student')); ?>" class="btn btn-default" >New</a>
+        <?php if( isset($Student->id) ): ?>
+            <a href="<?php echo e(url("student/$Student->id/delete")); ?>" class="btn btn-danger" >Delete</a>
+        <?php endif; ?>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Company
+        </div>
+        <div class="panel-body">
+            <div class="form-inline">
+                <?php echo Form::select('company_id',
+                array('' => 'Select Company') +
+                $Companies,
+                null,
+                [ "class" => "form-control"]
+                ); ?>
+
+
+                <button class="btn btn-default">Add</button>
+            </div>
+
+        </div>
+    </div>
+
+    <?php echo Form::close(); ?>
+
+
+    <?php if( $Student->companies()->count() > 0 ): ?>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <td style="width:5%;"></td>
+                <td>COMPANY NAME</td>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($Student->companies as $Company ): ?>
+                <tr>
+                    <td>
+                        <a href="<?php echo e(url("student/".$Student->id."/company/".$Company->id."/delete")); ?>">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </td>
+                    <td><?php echo e($Company->company_name); ?></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <?php echo Form::open([
+                            'url' => 'student/company/requirements',
+                            'files' => true
+                        ]); ?>
+
+                            <?php foreach( $Requirements as $Requirement ): ?>
+                                <div class="checkbox">
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="requirements[]"
+                                                        <?php if( $Company->pivot->requirements()->find($Requirement->id) != null ): ?>
+                                                            checked
+                                                        <?php endif; ?>
+                                                       value="<?php echo e($Requirement->id); ?>" >
+                                                <?php echo e($Requirement->requirement_desc); ?>
+
+                                                <?php if( isset($Company->pivot->requirements()->find($Requirement->id)->pivot->ref) ): ?>
+                                                    <a target="_blank" href=" <?php echo e("/uploads/".$Company->pivot->requirements()->find($Requirement->id)->pivot->ref); ?>">
+                                                        <span class="glyphicon glyphicon-new-window" aria-hidden="true" style="color: #03A9F4;"></span>
+                                                    </a>
+                                                <?php endif; ?>
+                                            </label>
+                                        </div>
+                                        <div class="col-xs-7">
+                                            <?php if( $Company->pivot->requirements()->find($Requirement->id) != null ): ?>
+                                                <?php echo Form::file('attachments[]', [ 'style' => 'display:inline-block; ']); ?>
+
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="form-group">
+                                <?php echo Form::hidden('student_id',$Student->id); ?>
+
+                                <?php echo Form::hidden('company_id',$Company->id); ?>
+
+                                <?php echo Form::submit('Save',[
+                                    'class' => 'btn btn-default'
+                                ]); ?>
+
+                            </div>
+                        <?php echo Form::close(); ?>
+
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('home', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

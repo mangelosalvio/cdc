@@ -1,0 +1,23 @@
+<?php if( !empty($Student) ): ?>
+<?php echo e($Student->student_no); ?>
+
+<?php echo e($Student->student_name); ?>
+
+
+<?php if( $Student->companies()->count() > 0 ): ?>
+<?php foreach($Student->companies as $Company): ?>
+<?php echo $Company->company_name; ?>
+
+<?php foreach($Requirements as $Requirement): ?>
+<?php if( $Company->pivot->requirements()->find($Requirement->id) != null ): ?>
+_X_ <?php echo $Requirement->requirement_desc; ?>
+
+<?php else: ?>
+___ <?php echo $Requirement->requirement_desc; ?>
+
+<?php endif; ?>
+<?php endforeach; ?>
+
+<?php endforeach; ?>
+<?php endif; ?>
+<?php endif; ?>

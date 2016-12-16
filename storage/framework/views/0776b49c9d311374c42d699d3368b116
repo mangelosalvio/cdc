@@ -1,0 +1,77 @@
+<?php $__env->startSection('body'); ?>
+    <script>
+        function printPage() { print(); } //Must be present for Iframe printing
+    </script>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        table thead{
+            font-weight: bold;
+        }
+        table td{
+            padding:2px 3px;
+            border-top:1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+    </style>
+    <h4><?php echo e($Course->course_desc); ?> as of <?php echo e(\Carbon\Carbon::now()->toDateTimeString()); ?></h4>
+    <table>
+        <thead>
+        <tr>
+            <td>#</td>
+            <td>STUDENT NO</td>
+            <td>STUDENT NAME</td>
+            <?php /*<td style="text-align: center;">SECTION</td>
+            <td>CONTACT NO</td>
+            <td>Company</td>
+            <td style="text-align: right;">TOTAL HRS</td>
+            <td style="text-align: center;">REQS COMPLETED</td>*/ ?>
+            <td style="text-align: center;">FINAL GRADE</td>
+            <td style="text-align: center;">EQ GRADE</td>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach($Students as $i => $Student): ?>
+            <tr>
+                <td><?php echo e($i + 1); ?></td>
+                <td><?php echo e($Student->student_no); ?></td>
+                <?php /*<td><input type="text" onclick="this.select();" value="<?php echo e($Student->student_name); ?>"></td>
+                <td><input type="text" onclick="this.select();" value="<?php echo e($Student->contact_no); ?>"></td>*/ ?>
+                <td style="text-transform: capitalize; white-space: nowrap;"><?php echo e(strtoupper($Student->student_name)); ?></td>
+                <?php /*    <td style=" text-align: center; text-transform: capitalize; white-space: nowrap;"><?php echo e($Student->section); ?></td>
+                <td><?php echo e($Student->contact_no); ?></td>
+                <td>
+                    <?php foreach($Student->companies as $i => $Company): ?>
+                        <?php if($i < $Student->companies()->count()): ?>
+                            <?php echo e($Company->company_name); ?>
+
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </td>
+
+                <td style="text-align:right;"><?php echo e($Student->total_hours); ?></td>
+                <td style="text-align: center;"><?php echo $Student->completed; ?></td>*/ ?>
+                <?php if( isset( $Student->grade ) ): ?>
+                    <td style="text-align: center;"><?php echo $Student->grade->final_grade; ?></td>
+                <?php else: ?>
+                    <td style="text-align: center;"><?php echo $Student->final_grade; ?></td>
+                <?php endif; ?>
+                <td style="text-align: center;"><?php echo $Student->eq_grade; ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <script>
+        $('tbody tr').each(function(i, e){
+            if ( $(e).find("td:nth-child(8)").html() == "NO" ) {
+                $(e).css('background-color','#F00');
+                $(e).css('color','#FFF');
+            }
+
+        });
+    </script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('reports', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

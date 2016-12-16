@@ -1,0 +1,260 @@
+<?php $__env->startSection('body'); ?>
+    <style>
+        .table-hover tr:hover td{
+            background-color: #000;
+        }
+    </style>
+
+    <?php echo Form::model($Company, array('url'=>'company','class' =>'form-horizontal')); ?>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("company_name", "Company Name",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("company_name", null,
+                [
+                "id" => "company_name",
+                "class" => "form-control",
+                'autofocus' => 'true'
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("address", "Company Address",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("address", null,
+                [
+                "id" => "address",
+                "class" => "form-control"
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("company_contact_person", "Contact Person",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("company_contact_person", null,
+                [
+                "id" => "company_contact_person",
+                "class" => "form-control"
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("position", "Position",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("position", null,
+                [
+                "id" => "position",
+                "class" => "form-control"
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("company_contact_no", "Contact No.",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("company_contact_no", null,
+                [
+                "id" => "company_contact_no",
+                "class" => "form-control"
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("nature_of_business", "Nature of Business.",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("nature_of_business", null,
+                [
+                "id" => "nature_of_business",
+                "class" => "form-control"
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save</button>
+                <a href="<?php echo e(url('company/print')); ?>" class="btn btn-default" target="_blank">Print</a>
+            </div>
+        </div>
+
+        <div class="panel panel-primary form-group-sm">
+            <div class="panel-heading">Companies</div>
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th style="width:1%;"></th>
+                    <th style="width:25%;">COMPANY NAME</th>
+                    <th style="width:25%;">ADDRESS</th>
+                    <th>CONTACT PERSON</th>
+                    <th>POSITION</th>
+                    <th>CONTACT NO.</th>
+                    <th>NATURE OF BUSINESS</th>
+                    <th class="text-center">ENGG.</th>
+                    <th class="text-center">HM & TOURSIM</th>
+                    <th class="text-center">CBA</th>
+                    <th class="text-center">MOA CATEGORIES</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($Companies as $Comp): ?>
+                    <tr>
+                        <td><span class="glyphicon glyphicon-remove" onclick="alert('La pa ni ga work ha. hehe');"></span></td>
+                        <td>
+                            <input type="hidden" name="arr_id[]" value="<?php echo e($Comp->id); ?>" >
+                            <input type="text" name="arr_company_name[]" class="form-control" value="<?php echo e($Comp->company_name); ?>">
+                        </td>
+                        <td><input type="text" name="arr_address[]" class="form-control" value="<?php echo e($Comp->address); ?>"></td>
+                        <td><input type="text" name="arr_company_contact_person[]" class="form-control" value="<?php echo e($Comp->company_contact_person); ?>"></td>
+                        <td><input type="text" name="arr_position[]" class="form-control" value="<?php echo e($Comp->position); ?>"></td>
+                        <td><input type="text" name="arr_company_contact_no[]" class="form-control" value="<?php echo e($Comp->company_contact_no); ?>"></td>
+                        <td><input type="text" name="arr_nature_of_business[]" class="form-control" value="<?php echo e($Comp->nature_of_business); ?>"></td>
+
+                        <td class="text-center">
+                            <input type="checkbox"
+                                   data-college_id="1"
+                                   data-company_id="<?php echo e($Comp->id); ?>"
+                                    <?php if( $Comp->colleges()->find(1) != null): ?>
+                                        checked="checked"
+                                    <?php endif; ?>
+                            >
+                            <input type="hidden" name="arr_is_engg[]"
+                                    <?php if( $Comp->colleges()->find(1) != null): ?>
+                                        value="1"
+                                    <?php else: ?>
+                                        value="0"
+                                    <?php endif; ?>
+                            >
+                        </td>
+
+                        <td class="text-center">
+                            <input type="checkbox"
+                                   data-college_id="2"
+                                   data-company_id="<?php echo e($Comp->id); ?>"
+                                <?php if( $Comp->colleges()->find(2) != null): ?>
+                                    checked="checked"
+                                <?php endif; ?>
+                            >
+                            <input type="hidden" name="arr_is_hm[]"
+                                   <?php if( $Comp->colleges()->find(2) != null): ?>
+                                       value="1"
+                                   <?php else: ?>
+                                       value="0"
+                                   <?php endif; ?>
+                            >
+                        </td>
+
+                        <td class="text-center">
+                            <input type="checkbox"
+                                   data-college_id="3"
+                                   data-company_id="<?php echo e($Comp->id); ?>"
+                                   <?php if( $Comp->colleges()->find(3) != null): ?>
+                                        checked="checked"
+                                   <?php endif; ?>
+                            >
+                            <input type="hidden" name="arr_is_cba[]"
+                                    <?php if( $Comp->colleges()->find(3) != null): ?>
+                                        value="1"
+                                    <?php else: ?>
+                                        value="0"
+                                    <?php endif; ?>
+                            >
+                        </td>
+
+                        <td class="text-center">
+                            <?php echo Form::select(null, $MoaCategories, $Comp->moa_category_id, [
+                                'class' => 'control-label moa-category',
+                                'data-company_id' => $Comp->id
+                            ]); ?>
+
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+
+        </div>
+    <?php echo Form::close(); ?>
+
+
+    <script type="text/javascript">
+        $("input[type='checkbox']").change(function(){
+            if ( $(this).is(":checked") ) {
+                var is_checked = 1;
+            } else {
+                var is_checked = 0;
+            }
+            var college_id = $(this).data("college_id");
+            var company_id = $(this).data("company_id");
+
+            var form_data = {
+                is_checked : is_checked,
+                college_id : college_id,
+                company_id : company_id,
+                '_token' : '<?php echo e(csrf_token()); ?>'
+            };
+
+            $.post('<?php echo e(url('company/college')); ?>', form_data, function(data){
+                console.log(data);
+            });
+        });
+
+        $(".moa-category").change(function(){
+
+            var moa_category_id = $(this).val();
+            var company_id = $(this).data("company_id");
+
+            var form_data = {
+                moa_category_id : moa_category_id,
+                company_id : company_id,
+                '_token' : '<?php echo e(csrf_token()); ?>'
+            };
+
+            $.post('<?php echo e(url('company/moa-category')); ?>', form_data, function(data){
+                console.log(data);
+            });
+        });
+
+    </script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('home', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

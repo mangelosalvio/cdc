@@ -1,0 +1,107 @@
+<?php $__env->startSection('body'); ?>
+    <?php echo Input::old('course_id'); ?>
+
+    <div class="row">
+        <?php echo Form::open([
+            'url' => 'reports/student-interns',
+             'class' => 'form-group-sm'
+        ]); ?>
+
+
+        <div class="form-group">
+            <?php echo Form::label('course_id','Course'); ?>
+
+            <?php echo Form::select('course_id',
+                [ '' => 'Select Course:' ]
+                +
+                $Courses,
+                $course_id,
+                [ "class" => "form-control"]
+                ); ?>
+
+        </div>
+        <div class="form-group">
+            <?php echo Form::label('company_id','Company'); ?>
+
+            <?php echo Form::select('company_id',
+                [ '' => 'Select Company:' ]
+                +
+                $Companies,
+                $company_id,
+                [ "class" => "form-control"]
+                ); ?>
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('internship_taken_id', 'Internship Taken'); ?>
+
+            <?php echo Form::select('internship_taken_id',
+                [ '' => 'Select Semester:' ] +
+                $InternshipSemesters,
+                $internship_taken_id,
+                [ "class" => "form-control"]
+                ); ?>
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::label('internship_enrolled_id', 'Internship Enrolled'); ?>
+
+            <?php echo Form::select('internship_enrolled_id',
+                [ '' => 'Select Semester:' ] +
+                $InternshipSemesters,
+                $internship_enrolled_id,
+                [ "class" => "form-control"]
+                ); ?>
+
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("section", "Section",
+            [
+            "class" => "control-label"
+            ]); ?>
+
+
+
+                <?php echo Form::text("section", $section,
+                [
+                "id" => "section",
+                "class" => "form-control"
+                ]); ?>
+
+
+
+        </div>
+
+        <div class="form-group">
+            <?php echo Form::submit('Search',[
+                'class' => 'form-control'
+            ]); ?>
+
+        </div>
+
+        <input type="button" class="form-control" value="Print" onclick="printIframe('JOframe');"/>
+
+        <?php echo Form::close(); ?>
+
+    </div>
+
+    <?php if(count($errors) > 0): ?>
+        <div class="alert alert-danger" style="margin:20px 0px;">
+            <ul>
+                <?php foreach($errors->all() as $error): ?>
+                    <li><?php echo e($error); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
+    <?php if( isset($Data) ): ?>
+    <div class="row" style="margin:20px 0px;">
+        <iframe id="JOframe" src="<?php echo url("reports/print-student-interns/$Data[course_id]/$Data[internship_taken_id]/$Data[internship_enrolled_id]/$Data[company_id]?section=$section"); ?>" frameborder="0" style="width:100%; height:400px;"></iframe>
+    </div>
+    <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('home', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

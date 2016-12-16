@@ -1,0 +1,130 @@
+<?php $__env->startSection('body'); ?>
+    <?php echo Form::model($Company, array('url'=>'company','class' =>'form-horizontal')); ?>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("company_name", "Company Name",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("company_name", null,
+                [
+                "id" => "company_name",
+                "class" => "form-control",
+                'autofocus' => 'true'
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("address", "Company Address",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("address", null,
+                [
+                "id" => "address",
+                "class" => "form-control"
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("company_contact_person", "Contact Person",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("company_contact_person", null,
+                [
+                "id" => "company_contact_person",
+                "class" => "form-control"
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("position", "Position",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("position", null,
+                [
+                "id" => "position",
+                "class" => "form-control"
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <?php echo Form::label("company_contact_no", "Contact No.",
+            [
+            "class" => "control-label col-sm-2"
+            ]); ?>
+
+
+            <div class="col-sm-10">
+                <?php echo Form::text("company_contact_no", null,
+                [
+                "id" => "company_contact_no",
+                "class" => "form-control"
+                ]); ?>
+
+            </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save</button>
+                <a href="<?php echo e(url('company/print')); ?>" class="btn btn-default" target="_blank">Print</a>
+            </div>
+        </div>
+
+        <div class="panel panel-primary form-group-sm">
+            <div class="panel-heading">Companies</div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td style="width:25%;">COMPANY NAME</td>
+                    <td style="width:25%;">ADDRESS</td>
+                    <td>CONTACT PERSON</td>
+                    <td>POSITION</td>
+                    <td>CONTACT NO.</td>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($Companies as $Comp): ?>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="arr_id[]" value="<?php echo e($Comp->id); ?>" >
+                            <input type="text" name="arr_company_name[]" class="form-control" value="<?php echo e($Comp->company_name); ?>">
+                        </td>
+                        <td><input type="text" name="arr_address[]" class="form-control" value="<?php echo e($Comp->address); ?>"></td>
+                        <td><input type="text" name="arr_company_contact_person[]" class="form-control" value="<?php echo e($Comp->company_contact_person); ?>"></td>
+                        <td><input type="text" name="arr_position[]" class="form-control" value="<?php echo e($Comp->position); ?>"></td>
+                        <td><input type="text" name="arr_company_contact_no[]" class="form-control" value="<?php echo e($Comp->company_contact_no); ?>"></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+
+        </div>
+    <?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('home', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

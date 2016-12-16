@@ -1,0 +1,16 @@
+<?php $__env->startSection('body'); ?>
+    <table class="table">
+        <tbody>
+        <?php foreach($Students as $Student): ?>
+            <tr>
+                <td><?php echo e($Student->student_name); ?></td>
+                <td><?php echo e($Student->contact_no); ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('home', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
